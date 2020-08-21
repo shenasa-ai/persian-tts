@@ -33,3 +33,7 @@ after gathering text, there are some statistical analysis that you may want to d
 first of these tools is the scipt to count occurance of a word in the text and sorting them. this can be done using [top-words.py](https://github.com/shenasa-ai/persian-tts/blob/master/top-words.py)
 it analyses the final.txt file and outputs word_count.txt which contains the descendingly sorted list of all words used in final.txt with their occurance count.
 
+after reciving the voice files, the file namings didnt match the naming of the text files. renaming the voice files was done using the [voice_text_matcher.py](https://github.com/shenasa-ai/persian-tts/blob/master/voice_text_matcher.py)
+additional info is commented in the script itself.
+
+
