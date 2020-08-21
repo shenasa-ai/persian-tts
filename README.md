@@ -28,6 +28,7 @@ this script also plots the histogram of the sentense lengths distribution compar
 
  the voice actor required me to give him the text files in docx format so i wrote the t2d.py script to convert the txt files to docx.
 this sctipt converts all the txt files in current directory to docx format.
+
 after gathering text, there are some statistical analysis that you may want to do on your text. I included the tools I made for that purpose in this repo.
 first of these tools is the scipt to count occurance of a word in the text and sorting them. this can be done using top-words.py
 it analyses the final.txt file and outputs word_count.txt which contains the descendingly sorted list of all words used in final.txt with their occurance count.
