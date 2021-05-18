@@ -1,7 +1,6 @@
 
 """
-Created on Wed Mar 17 13:19:21 2021
-
+Remove silence from raw speech, split them and finally rename each splitted track to corresponding sentence.
 @author: anvaari
 """
 
