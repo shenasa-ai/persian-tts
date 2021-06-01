@@ -22,7 +22,7 @@ import argparse
 
 
 
-project_dir=os.getcwd()
+project_dir=os.path.dirname(os.path.abspath(__file__))
 
 parser = argparse.ArgumentParser(description='Remove silence from raw speech, split them and finally rename each splitted track to corresponding sentence.')
 parser.add_argument(
