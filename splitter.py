@@ -1,7 +1,7 @@
 
 """
 Remove silence from raw speech, split them and finally rename each splitted track to corresponding sentence.
-@author: anvaari
+@author: zil.ink/anvaari
 """
 
 
@@ -56,7 +56,7 @@ output_dir=args.output_dir
 if audios_dir is None :
     audios_dir=input('\naudios_dir not specify in the arguments. Please type audios_dir here.\n')
 if csv_dir is None:
-    csv_dir=output_dir+'/Output/CSVs'
+    csv_dir=join_path(output_dir,'Output','CSVs')
 
 def check_preq_files():
     rais=0
@@ -96,34 +96,34 @@ def create_output_folder(output_dir):
     
     '''
     # Main Folder
-    if os.path.exists(output_dir+'/Output'):
+    if os.path.exists(join_path(output_dir,'Output')):
         pass
     else:
-        os.mkdir(output_dir+'/Output')
+        os.mkdir(join_path(output_dir,'Output'))
     
     # Splitted Audio Track Folder
-    if os.path.exists(output_dir+'/Output/Splitted'):
+    if os.path.exists(join_path(output_dir,'Output','Splitted')):
         pass
     else:
-        os.mkdir(output_dir+'/Output/Splitted')
+        os.mkdir(join_path(output_dir,'Output','Splitted'))
     
     # Transcript Folder
-    if os.path.exists(output_dir+'/Output/Transcript'):
+    if os.path.exists(join_path(output_dir,'Output','Transcript')):
         pass
     else:
-        os.mkdir(output_dir+'/Output/Transcript')
+        os.mkdir(join_path(output_dir,'Output','Transcript'))
     
     # wavs Folder
-    if os.path.exists(output_dir+'/Output/wavs'):
+    if os.path.exists(join_path(output_dir,'Output','wavs')):
         pass
     else:
-        os.mkdir(output_dir+'/Output/wavs')
+        os.mkdir(join_path(output_dir,'Output','wavs'))
         
     # CSVs Folder
-    if os.path.exists(output_dir+'/Output/CSVs') :
+    if os.path.exists(join_path(output_dir,'Output','CSVs')) :
         pass
-    elif  csv_dir==output_dir+'/Output/CSVs':
-        os.mkdir(output_dir+'/Output/CSVs')
+    elif  csv_dir==join_path(output_dir,'Output','CSVs'):
+        os.mkdir(join_path(output_dir,'Output','CSVs'))
     
 def track_name_extractor(file_name):
     '''
@@ -177,8 +177,8 @@ def audio_segment(audios_dir,csv_dir):
     Create CSVs contain speech range of speechs in csv_dir if not created before. 
     '''
     
-    audios_dir_list=glob(audios_dir+'/*.mp3')
-    created_csv=glob(csv_dir+'/*.csv')
+    audios_dir_list=glob(join_path(audios_dir,'*.mp3'))
+    created_csv=glob(join_path(csv_dir,'*.csv'))
     created_csv_name=list(map(track_name_extractor,created_csv))
     
     seg=Segmenter(vad_engine='smn',detect_gender=False)
@@ -220,10 +220,10 @@ def audio_split(audio_file_dir,speech_range_csv):
     create_output_folder(output_dir)
     check_preq_files()
     track_name=track_name_extractor(audio_file_dir)
-    if os.path.exists(output_dir+f'/Output/Splitted/{track_name}'):
+    if os.path.exists(join_path(output_dir,'Output','Splitted',f'{track_name}')):
         pass
     else:
-        os.mkdir(output_dir+f'/Output/Splitted/{track_name}')
+        os.mkdir(join_path(output_dir,'Output','Splitted',f'{track_name}'))
     song = AudioSegment.from_mp3(audio_file_dir)
     speech_range=pd.read_csv(speech_range_csv,sep="	")
     Output_dir=[]
@@ -233,7 +233,7 @@ def audio_split(audio_file_dir,speech_range_csv):
         end=float(row['stop'])*1000
         if end-start >500:
             splitted_i=song[start:end]
-            splitted_i.export(output_dir+f'/Output/Splitted/{track_name}/{i}.wav',format='wav')
+            splitted_i.export(join_path(output_dir,'Output','Splitted',f'{track_name}',f'{i}.wav'),format='wav')
             i+=1
             
 
@@ -246,7 +246,7 @@ def transcribe_audios(audio_chunked_path):
     check_preq_files()
     
     csv_name=track_name_extractor(audio_chunked_path)
-    PATH_TO_CURRENT_CSV = output_dir + f'/Output/Transcript/{csv_name}.csv'
+    PATH_TO_CURRENT_CSV = join_path(output_dir,'Output','Transcript',f'{csv_name}.csv')
 
     audios_sanitized = [f for f in os.listdir(audio_chunked_path) if f[-4:] == '.wav' ]
     if os.path.exists(PATH_TO_CURRENT_CSV):
@@ -353,10 +353,10 @@ audio_segment(audios_dir,csv_dir)
 
 #Split raw audio
 
-audio_files_dir=glob(audios_dir+'/*.mp3')
+audio_files_dir=glob(join_path(audios_dir,'*.mp3'))
 for audio_dir,i in zip(audio_files_dir,progressbar.progressbar(range(len(audio_files_dir)))):
     track_name=track_name_extractor(audio_dir)
-    audio_split(audio_dir,join_path(csv_dir,track_name)+'.csv')
+    audio_split(audio_dir,join_path(csv_dir,track_name+'.csv'))
     
 
 
