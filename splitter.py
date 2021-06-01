@@ -54,7 +54,7 @@ output_dir=args.output_dir
 
 
 if audios_dir is None :
-    raise Exception('Please specify audios_dir. Use -h for help')
+    audios_dir=input('audios_dir not specify in the arguments. Please type audios_dir here.')
 if csv_dir is None:
     csv_dir=output_dir+'/Output/CSVs'
 
