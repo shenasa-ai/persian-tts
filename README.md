@@ -36,6 +36,67 @@ After gathering text, there is some statistical analysis that you may want to do
 The first tool is the script to count the occurrence of a word in the text and sorting them. This can be done using [top-words.py](https://github.com/shenasa-ai/persian-tts/blob/master/top-words.py)
 It analyses the final.txt file and outputs word_count.txt which contains the descendingly sorted list of all words used in final.txt with their occurrence count.
 
+### Find Heteronym words
+A heteronym is a word that has a different pronunciation and meaning from another word but the same spelling ([Wikipedia](https://en.wikipedia.org/wiki/Heteronym_(linguistics))). When it come to text to speech, heteronym words are very important and we should build model which have capability to detect and handle these words. 
+[heteronym_finder](heteronym_finder.py) can find persian heteronym words in your dataset and save them in proper way in json file. `heteronym_finder` find all pronunciations and meanings for each word from Amid dictionary.
+### How To Use:
+**Clone** the repository : 
+``` bash
+git clone https://github.com/shenasa-ai/persian-tts.git
+cd persian-tts
+```
+
+**Prerequisites**:
+It is better to create a virtual environment :
+``` bash
+python -m venv venv
+``` 
+Activate it and update pip:
+``` bash 
+source venv/bin/activate
+pip install --upgrade pip
+```
+Then install all prerequisite packages using pip : 
+``` bash 
+pip install -r heteronym_finder_requirements.txt
+```
+Also you need to download [this](https://www.dropbox.com/s/tlyvnzv1ha9y1kl/spell.zip?dl=0) spell check package and after extraction copy the spell/ directory to parsivar/resource.
+
+**Usage:**
+``` bash
+python heteronym_finder.py -h
+```
+Example:
+``` bash
+python heteronym_finder.py --corpus-path 'path/to/corpus/folder' --token 'your Vajehyab token' --output 'path/to/where/you/want/output/folder/create'
+```
+Args:
+``` bash
+--corpus-path           # Path to where corpus exist (must in .txt format).
+
+--token                 # Token of your Vajehyab developer account
+
+--output                # Path to output folder. If you already have some word.json file and want to resume progress set this to folder where words_json folder exist. [Optional, default is code's directory]
+```
+
+**Notes**:
+1. Information of words gotten from Amid dictionary (through Vajehyab API) was stored in `output_folder/words_json`, and if something out of control happen, in the next run, progress will be resumed automatically.
+
+**Output Folder**:
+By default `output` folder is project folder (where heteronym_finder.py exist) so:
+```
+├── heteronym_finder.py
+├── words_faile_pickle  # Words which their information  was failed to get  from Vajehyab, or Amid didn't supported. (Pickle file)
+├── heteronyms.json     # All heteronym words with their pronunciations and meanings         
+└── words_json
+    ├── word_name_0.json
+    ├── word_name_1.json
+    ├── word_name_2.json
+     ...
+
+```
+
+
 ### Process and validate voices after receiving from voice actor
 
 #### Match voice file names and text files
@@ -96,7 +157,6 @@ The directory contains `splitter.py` must contain some file and folder as below:
 **Usage:**
 ``` bash
 python splitter.py -h
-
 ```
 Example:
 ``` bash
