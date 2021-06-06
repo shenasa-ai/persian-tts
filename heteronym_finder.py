@@ -303,7 +303,7 @@ if __name__=='__main__':
         print('\nHeteronym words with its meanings:\n')
         pprint(heteronyms)
     else:
-        print('Heteronyms save in heteronyms.json in output folde')
+        print('Heteronyms save in heteronyms.json in output folder')
     
 
         
