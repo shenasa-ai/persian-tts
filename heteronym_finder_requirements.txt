@@ -2,7 +2,7 @@ certifi==2021.5.30
 chardet==4.0.0
 idna==2.10
 libwapiti==0.2.1
-nltk==3.6.5
+nltk==3.6.6
 parsivar==0.2.3
 progressbar2==3.53.1
 python-utils==2.5.6
